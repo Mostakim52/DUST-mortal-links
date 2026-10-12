@@ -1,0 +1,282 @@
+/* ============================================================
+   DUST — mortuary terminal
+   retro CRT phosphor aesthetic · green P1 phosphor on void
+   ============================================================ */
+
+:root {
+  --bg: #040705;
+  --panel: #0a120c;
+  --panel-2: #0d170f;
+  --line: #1c3323;
+  --line-bright: #2d5237;
+  --phos: #53ff7f;
+  --phos-dim: #2f8a4c;
+  --phos-dark: #12341d;
+  --amber: #ffb454;
+  --red: #ff5c5c;
+  --ink: #b7e8c0;
+  --ink-dim: #6ba578;
+  --display: 'VT323', monospace;
+  --mono: 'IBM Plex Mono', monospace;
+  --glow: 0 0 6px rgba(83, 255, 127, 0.45), 0 0 22px rgba(83, 255, 127, 0.12);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scrollbar-color: var(--phos-dark) var(--bg); }
+
+body {
+  background:
+    radial-gradient(1100px 500px at 50% -10%, rgba(83, 255, 127, 0.07), transparent 60%),
+    var(--bg);
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 14px;
+  line-height: 1.55;
+  min-height: 100vh;
+}
+
+::selection { background: var(--phos); color: #04140a; }
+
+/* --- CRT overlays ------------------------------------------- */
+.crt {
+  position: fixed; inset: 0; z-index: 60; pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0 2px,
+    rgba(0, 0, 0, 0.18) 2px 4px
+  );
+}
+.crt::after {
+  content: ''; position: absolute; left: 0; right: 0; height: 120px;
+  background: linear-gradient(to bottom, transparent, rgba(83, 255, 127, 0.035), transparent);
+  animation: sweep 7s linear infinite;
+}
+@keyframes sweep { from { top: -120px; } to { top: 100%; } }
+
+.vignette {
+  position: fixed; inset: 0; z-index: 55; pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 55%, rgba(0, 0, 0, 0.5));
+}
+
+/* --- Layout -------------------------------------------------- */
+.wrap { max-width: 880px; margin: 0 auto; padding: 48px 24px 80px; }
+
+.reveal { opacity: 0; transform: translateY(14px); animation: rise 0.6s ease-out forwards; animation-delay: calc(var(--d) * 0.12s); }
+@keyframes rise { to { opacity: 1; transform: none; } }
+
+/* --- Masthead ------------------------------------------------ */
+.masthead { margin-bottom: 36px; }
+.mast-row { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+
+.logo {
+  font-family: var(--display);
+  font-size: clamp(64px, 10vw, 96px);
+  line-height: 0.85;
+  letter-spacing: 0.04em;
+  color: var(--phos);
+  text-shadow: var(--glow);
+  animation: flicker 4s infinite steps(1);
+}
+@keyframes flicker {
+  0%, 100% { opacity: 1; }
+  92% { opacity: 1; }
+  93% { opacity: 0.75; }
+  94% { opacity: 1; }
+  97% { opacity: 0.85; }
+}
+.cursor { animation: blink 1.1s steps(1) infinite; }
+@keyframes blink { 50% { opacity: 0; } }
+
+.statline {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 11px; letter-spacing: 0.12em; color: var(--ink-dim);
+  border: 1px solid var(--line); padding: 6px 10px; background: var(--panel);
+}
+.rec-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--phos); box-shadow: 0 0 8px var(--phos);
+  animation: blink 1.6s steps(1) infinite;
+}
+.statline.dead .rec-dot { background: var(--red); box-shadow: 0 0 8px var(--red); }
+
+.tagline { margin-top: 14px; max-width: 62ch; color: var(--ink-dim); }
+.tagline em { color: var(--amber); font-style: normal; }
+.tagline b { color: var(--ink); font-weight: 600; }
+
+/* --- Panels -------------------------------------------------- */
+.panel {
+  position: relative;
+  border: 1px solid var(--line);
+  background: linear-gradient(180deg, var(--panel-2), var(--panel));
+  box-shadow: inset 0 0 40px rgba(83, 255, 127, 0.03), 0 0 0 1px #000;
+  padding: 24px;
+  margin-bottom: 28px;
+}
+/* corner ticks — specimen drawer vibe */
+.panel::before, .panel::after {
+  content: ''; position: absolute; width: 14px; height: 14px; pointer-events: none;
+}
+.panel::before { top: -1px; left: -1px; border-top: 2px solid var(--phos-dim); border-left: 2px solid var(--phos-dim); }
+.panel::after { bottom: -1px; right: -1px; border-bottom: 2px solid var(--phos-dim); border-right: 2px solid var(--phos-dim); }
+
+.panel-tag {
+  position: absolute; top: -9px; left: 16px;
+  background: var(--bg); border: 1px solid var(--line-bright);
+  color: var(--phos); font-size: 10px; letter-spacing: 0.18em;
+  padding: 2px 8px; text-shadow: var(--glow);
+}
+
+/* --- Form ----------------------------------------------------- */
+.field { display: flex; flex-direction: column; gap: 6px; border: 0; }
+.field.grow { flex: 1 1 220px; }
+.field-label { font-size: 10px; letter-spacing: 0.18em; color: var(--ink-dim); }
+
+input {
+  font-family: var(--mono); font-size: 14px; color: var(--ink);
+  background: #060d08; border: 1px solid var(--line);
+  padding: 10px 12px; outline: none; width: 100%;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+input::placeholder { color: #3f6b4c; }
+input:focus { border-color: var(--phos-dim); box-shadow: 0 0 0 1px var(--phos-dark), 0 0 14px rgba(83, 255, 127, 0.15); }
+#url { font-size: 15px; }
+
+.row { display: flex; gap: 20px; margin-top: 18px; flex-wrap: wrap; }
+.row > .field { flex: 1 1 280px; }
+
+.pills { display: flex; flex-wrap: wrap; gap: 6px; }
+.pill {
+  font-family: var(--mono); font-size: 12px; letter-spacing: 0.06em;
+  color: var(--ink-dim); background: #081108; border: 1px solid var(--line);
+  padding: 6px 12px; cursor: pointer; transition: all 0.15s;
+}
+.pill:hover { border-color: var(--line-bright); color: var(--ink); }
+.pill.active {
+  color: var(--phos); border-color: var(--phos-dim); background: var(--phos-dark);
+  text-shadow: var(--glow); box-shadow: inset 0 0 12px rgba(83, 255, 127, 0.12);
+}
+
+.form-foot { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-top: 22px; flex-wrap: wrap; }
+.fate-preview { font-size: 12px; color: var(--amber); }
+.form-error { margin-top: 10px; font-size: 12px; color: var(--red); min-height: 1em; }
+
+/* --- Buttons -------------------------------------------------- */
+.btn {
+  font-family: var(--mono); font-size: 12px; font-weight: 600; letter-spacing: 0.14em;
+  padding: 10px 18px; cursor: pointer; border: 1px solid var(--line-bright);
+  background: transparent; color: var(--ink); transition: all 0.15s;
+}
+.btn.primary {
+  background: var(--phos); color: #04140a; border-color: var(--phos);
+  box-shadow: 0 0 18px rgba(83, 255, 127, 0.25);
+}
+.btn.primary:hover { transform: translateY(-1px); box-shadow: 0 0 26px rgba(83, 255, 127, 0.45); }
+.btn.ghost:hover { border-color: var(--phos); color: var(--phos); text-shadow: var(--glow); }
+.btn.danger:hover { border-color: var(--red); color: var(--red); }
+.btn:active { transform: translateY(1px); }
+
+/* --- Result ---------------------------------------------------- */
+.result-panel { border-color: var(--phos-dim); }
+.short-link {
+  display: inline-block; margin-top: 8px;
+  font-family: var(--display); font-size: 40px; line-height: 1.1;
+  color: var(--phos); text-decoration: none; word-break: break-all;
+  text-shadow: var(--glow);
+}
+.short-link:hover { text-decoration: underline; }
+.result-fate { margin-top: 6px; font-size: 12px; color: var(--amber); }
+.result-actions { display: flex; gap: 10px; margin-top: 16px; flex-wrap: wrap; }
+
+/* --- Vault ------------------------------------------------------ */
+.vault-head { display: flex; align-items: baseline; gap: 12px; margin-bottom: 16px; }
+.vault-head h2 { font-family: var(--display); font-size: 30px; color: var(--phos); text-shadow: var(--glow); letter-spacing: 0.05em; }
+.vault-sub { font-size: 11px; letter-spacing: 0.14em; color: var(--ink-dim); }
+
+.specimen { border: 1px solid var(--line); background: #081009; padding: 14px 16px; margin-bottom: 10px; }
+.specimen.dead { opacity: 0.55; }
+.specimen-top { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+
+.spec-code {
+  font-family: var(--display); font-size: 22px; color: var(--phos);
+  text-shadow: var(--glow); text-decoration: none; letter-spacing: 0.04em;
+}
+.spec-code:hover { text-decoration: underline; }
+.specimen.dead .spec-code { color: var(--ink-dim); text-shadow: none; }
+.spec-lock { font-size: 12px; }
+
+.spec-meter { display: inline-flex; gap: 3px; margin-left: auto; }
+.seg { width: 9px; height: 14px; transform: skewX(-14deg); border: 1px solid var(--line); }
+.seg.on { border-color: transparent; }
+.seg.on.ok { background: var(--phos); box-shadow: 0 0 6px rgba(83, 255, 127, 0.6); }
+.seg.on.warn { background: var(--amber); box-shadow: 0 0 6px rgba(255, 180, 84, 0.6); }
+.seg.on.crit { background: var(--red); box-shadow: 0 0 6px rgba(255, 92, 92, 0.6); }
+
+.spec-target {
+  margin-top: 6px; font-size: 12px; color: var(--ink-dim);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%;
+}
+.specimen.dead .spec-target { text-decoration: line-through; }
+
+.spec-meta { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 8px; font-size: 11px; letter-spacing: 0.08em; color: var(--ink-dim); }
+.spec-meta b { color: var(--ink); font-weight: 600; }
+.spec-cause { color: var(--red); }
+
+.spec-actions { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+.spec-actions .btn { padding: 5px 10px; font-size: 10px; }
+
+.vault-empty { padding: 28px 0; text-align: center; color: var(--ink-dim); font-size: 12px; letter-spacing: 0.1em; }
+
+/* --- Footer ------------------------------------------------------ */
+.foot { text-align: center; font-size: 10px; letter-spacing: 0.3em; color: #33553e; margin-top: 8px; }
+
+/* --- Modal -------------------------------------------------------- */
+.modal {
+  position: fixed; inset: 0; z-index: 70; display: flex;
+  align-items: center; justify-content: center; background: rgba(2, 5, 3, 0.8);
+}
+.modal[hidden] { display: none; }
+.modal-card {
+  display: flex; flex-direction: column; align-items: center; gap: 14px;
+  border: 1px solid var(--phos-dim); background: var(--panel-2);
+  padding: 28px; box-shadow: 0 0 40px rgba(83, 255, 127, 0.15);
+}
+.modal-card img { image-rendering: pixelated; border: 1px solid var(--line); }
+.qr-code-label { font-family: var(--display); font-size: 20px; color: var(--phos); }
+
+/* --- Tombstone / gate pages --------------------------------------- */
+.tomb-wrap { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px; }
+.tombstone {
+  max-width: 460px; width: 100%; text-align: center;
+  border: 1px solid var(--line-bright); background: linear-gradient(180deg, var(--panel-2), var(--panel));
+  padding: 48px 32px; position: relative;
+  box-shadow: inset 0 0 60px rgba(83, 255, 127, 0.04), 0 0 0 1px #000;
+  animation: rise 0.6s ease-out;
+}
+.tombstone::before, .tombstone::after { content: ''; position: absolute; width: 18px; height: 18px; }
+.tombstone::before { top: -1px; left: -1px; border-top: 2px solid var(--phos-dim); border-left: 2px solid var(--phos-dim); }
+.tombstone::after { bottom: -1px; right: -1px; border-bottom: 2px solid var(--phos-dim); border-right: 2px solid var(--phos-dim); }
+
+.tomb-cross { font-size: 44px; color: var(--ink-dim); }
+.tomb-code { font-family: var(--display); font-size: 46px; color: var(--ink-dim); margin-top: 8px; word-break: break-all; }
+.tomb-epitaph { margin-top: 10px; color: var(--ink); font-size: 14px; }
+.tomb-stats { display: flex; flex-direction: column; gap: 6px; margin: 20px 0; font-size: 12px; color: var(--ink-dim); }
+.tomb-stats b { color: var(--ink); }
+.tombstone .btn { margin-top: 8px; display: inline-block; text-decoration: none; }
+
+.gate-form { display: flex; gap: 10px; margin-top: 20px; }
+.gate-form input { text-align: center; }
+.gate-error { margin-top: 12px; min-height: 1.2em; color: var(--red); font-size: 12px; }
+.shake { animation: shake 0.4s; }
+@keyframes shake {
+  20% { transform: translateX(-6px); } 40% { transform: translateX(6px); }
+  60% { transform: translateX(-4px); } 80% { transform: translateX(4px); }
+}
+
+/* --- Small screens -------------------------------------------------- */
+@media (max-width: 560px) {
+  .wrap { padding: 28px 14px 60px; }
+  .panel { padding: 18px; }
+  .form-foot { flex-direction: column; align-items: stretch; }
+  .form-foot .btn { width: 100%; }
+}

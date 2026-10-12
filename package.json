@@ -1,0 +1,16 @@
+{
+  "name": "dust-url-shortener",
+  "version": "1.0.0",
+  "description": "A mortal URL shortener — every link dies of old age or is clicked to death.",
+  "main": "server.js",
+  "engines": {
+    "node": ">=22.13"
+  },
+  "scripts": {
+    "start": "node --env-file-if-exists=.env server.js"
+  },
+  "dependencies": {
+    "express": "^5.1.0",
+    "qrcode": "^1.5.4"
+  }
+}

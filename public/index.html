@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DUST — a mortal URL shortener</title>
+  <meta name="description" content="Shorten links that die. Choose their lifespan in clicks and time — whichever comes first takes them.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23040705'/%3E%3Ctext x='16' y='24' font-size='22' text-anchor='middle' fill='%2353ff7f' font-family='monospace'%3E%E2%80%A0%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=VT323&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <div class="crt" aria-hidden="true"></div>
+  <div class="vignette" aria-hidden="true"></div>
+
+  <main class="wrap">
+    <header class="masthead">
+      <div class="mast-row">
+        <h1 class="logo">DUST<span class="cursor">▮</span></h1>
+        <div class="statline" id="statline">
+          <span class="rec-dot"></span><span id="statline-text">MORTUARY TERMINAL — WAKING UP…</span>
+        </div>
+      </div>
+      <p class="tagline">
+        A URL shortener where every link is <em>mortal</em>. Give each one a lifespan in
+        <b>clicks</b> and <b>time</b> — whichever runs out first takes it.
+        Watch it decay in the vault. Visit its tombstone when it's gone.
+      </p>
+    </header>
+
+    <section class="panel form-panel reveal" style="--d:0">
+      <form id="shorten-form" autocomplete="off">
+        <label class="field">
+          <span class="field-label">SPECIMEN URL</span>
+          <input id="url" type="url" placeholder="https://the-link-you-want-to-kill.example" required>
+        </label>
+
+        <div class="row">
+          <div class="field">
+            <span class="field-label">DIES AFTER · CLICKS</span>
+            <div class="pills" id="clicks-pills" role="group" aria-label="Click lifespan"></div>
+          </div>
+          <div class="field">
+            <span class="field-label">DIES AFTER · TIME</span>
+            <div class="pills" id="time-pills" role="group" aria-label="Time lifespan"></div>
+          </div>
+        </div>
+
+        <div class="row">
+          <label class="field grow">
+            <span class="field-label">CUSTOM ALIAS · OPTIONAL</span>
+            <input id="alias" type="text" maxlength="32" placeholder="leave blank for a random grave">
+          </label>
+          <label class="field grow">
+            <span class="field-label">PASSWORD · OPTIONAL</span>
+            <input id="password" type="text" placeholder="seal this grave">
+          </label>
+        </div>
+
+        <div class="form-foot">
+          <p class="fate-preview" id="fate-preview"></p>
+          <button class="btn primary" type="submit">SHORTEN — SEAL ITS FATE</button>
+        </div>
+        <p class="form-error" id="form-error" role="alert"></p>
+      </form>
+    </section>
+
+    <section class="panel result-panel reveal" id="result-panel" style="--d:1" hidden>
+      <span class="panel-tag">SPECIMEN PREPARED</span>
+      <a class="short-link" id="result-link" href="#" target="_blank" rel="noopener"></a>
+      <p class="result-fate" id="result-fate"></p>
+      <div class="result-actions">
+        <button class="btn ghost" id="copy-result" type="button">COPY</button>
+        <button class="btn ghost" id="qr-result" type="button">QR CODE</button>
+        <button class="btn ghost" id="again-result" type="button">ANOTHER</button>
+      </div>
+    </section>
+
+    <section class="panel vault-panel reveal" style="--d:2">
+      <div class="vault-head">
+        <h2>THE VAULT</h2>
+        <span class="vault-sub" id="vault-count"></span>
+      </div>
+      <div id="vault"></div>
+    </section>
+
+    <footer class="foot">
+      <span>MEMENTO MORI · ALL LINKS RETURN TO DUST</span>
+    </footer>
+  </main>
+
+  <div class="modal" id="qr-modal" hidden>
+    <div class="modal-card">
+      <span class="panel-tag">SCAN TO VISIT</span>
+      <img id="qr-img" alt="QR code" width="220" height="220">
+      <p class="qr-code-label" id="qr-code-label"></p>
+      <button class="btn ghost" id="qr-close" type="button">CLOSE</button>
+    </div>
+  </div>
+
+  <script src="/app.js"></script>
+</body>
+</html>
