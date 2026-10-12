@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="420" viewBox="0 0 1200 420" role="img" aria-label="DUST — every link dies">
+  <defs>
+    <radialGradient id="glow-bg" cx="50%" cy="0%" r="90%">
+      <stop offset="0%" stop-color="#0c1a10"/>
+      <stop offset="55%" stop-color="#060b07"/>
+      <stop offset="100%" stop-color="#040705"/>
+    </radialGradient>
+    <radialGradient id="vignette" cx="50%" cy="50%" r="72%">
+      <stop offset="60%" stop-color="#000000" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0.55"/>
+    </radialGradient>
+    <pattern id="scanlines" width="4" height="4" patternUnits="userSpaceOnUse">
+      <rect width="4" height="4" fill="transparent"/>
+      <rect y="2" width="4" height="2" fill="#000000" opacity="0.22"/>
+    </pattern>
+    <filter id="phos" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="7" result="b1"/>
+      <feGaussianBlur in="SourceGraphic" stdDeviation="2.2" result="b2"/>
+      <feMerge>
+        <feMergeNode in="b1"/><feMergeNode in="b2"/><feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="softglow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- background -->
+  <rect width="1200" height="420" fill="url(#glow-bg)"/>
+
+  <!-- faint grid -->
+  <g stroke="#12341d" stroke-width="1" opacity="0.35">
+    <path d="M 0 105 H 1200 M 0 210 H 1200 M 0 315 H 1200"/>
+    <path d="M 200 0 V 420 M 400 0 V 420 M 600 0 V 420 M 800 0 V 420 M 1000 0 V 420"/>
+  </g>
+
+  <!-- ghost tombstone cross -->
+  <g opacity="0.16" fill="#53ff7f">
+    <rect x="1022" y="96" width="26" height="180"/>
+    <rect x="966" y="150" width="138" height="26"/>
+  </g>
+
+  <!-- corner ticks -->
+  <g stroke="#2f8a4c" stroke-width="3" fill="none" opacity="0.9">
+    <path d="M 28 12 H 12 V 28"/>
+    <path d="M 1172 12 H 1188 V 28"/>
+    <path d="M 28 408 H 12 V 392"/>
+    <path d="M 1172 408 H 1188 V 392"/>
+  </g>
+
+  <!-- wordmark -->
+  <text x="600" y="238" text-anchor="middle"
+        font-family="'Courier New', monospace" font-weight="bold" font-size="148"
+        letter-spacing="30" fill="#53ff7f" filter="url(#phos)">DUST</text>
+
+  <!-- blinking cursor block after wordmark -->
+  <rect x="935" y="130" width="34" height="112" fill="#53ff7f" opacity="0.85" filter="url(#softglow)"/>
+
+  <!-- tagline -->
+  <text x="600" y="300" text-anchor="middle"
+        font-family="'Courier New', monospace" font-weight="bold" font-size="26"
+        letter-spacing="14" fill="#b7e8c0" filter="url(#softglow)">EVERY LINK DIES</text>
+
+  <!-- terminal status line -->
+  <text x="600" y="352" text-anchor="middle"
+        font-family="'Courier New', monospace" font-size="17"
+        letter-spacing="6" fill="#6ba578">A URL SHORTENER WITH A LIFESPAN — CLICKS OR TIME, WHICHEVER COMES FIRST</text>
+
+  <!-- scanlines + vignette overlays -->
+  <rect width="1200" height="420" fill="url(#scanlines)"/>
+  <rect width="1200" height="420" fill="url(#vignette)"/>
+</svg>
