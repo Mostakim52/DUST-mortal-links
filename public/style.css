@@ -227,8 +227,33 @@ input:focus { border-color: var(--phos-dim); box-shadow: 0 0 0 1px var(--phos-da
 
 .vault-empty { padding: 28px 0; text-align: center; color: var(--ink-dim); font-size: 12px; letter-spacing: 0.1em; }
 
-/* --- Footer ------------------------------------------------------ */
-.foot { text-align: center; font-size: 10px; letter-spacing: 0.3em; color: #33553e; margin-top: 8px; }
+/* --- Footer / credit card ---------------------------------------- */
+.foot { display: flex; flex-direction: column; align-items: center; gap: 16px; margin-top: 8px; }
+.foot-motto { font-size: 10px; letter-spacing: 0.3em; color: #33553e; }
+
+.credit {
+  display: inline-flex; align-items: center; gap: 10px;
+  border: 1px solid var(--line); background: var(--panel);
+  padding: 7px 12px 7px 7px; text-decoration: none;
+  transition: border-color 0.15s, box-shadow 0.15s, transform 0.15s;
+}
+.credit:hover {
+  border-color: var(--line-bright); transform: translateY(-1px);
+  box-shadow: 0 0 16px rgba(83, 255, 127, 0.14);
+}
+.credit-avatar {
+  width: 34px; height: 34px; border-radius: 50%;
+  border: 1px solid var(--phos-dim);
+  box-shadow: 0 0 10px rgba(83, 255, 127, 0.3);
+}
+.credit-text { display: flex; flex-direction: column; line-height: 1.25; }
+.credit-label { font-size: 9px; letter-spacing: 0.24em; color: var(--ink-dim); }
+.credit-name { font-size: 12px; font-weight: 600; color: var(--ink); transition: color 0.15s; }
+.credit:hover .credit-name { color: var(--phos); text-shadow: var(--glow); }
+.credit-glyph { font-size: 12px; color: var(--ink-dim); transition: color 0.15s; }
+.credit:hover .credit-glyph { color: var(--phos); }
+
+.tomb-credit { margin-top: 22px; }
 
 /* --- Modal -------------------------------------------------------- */
 .modal {

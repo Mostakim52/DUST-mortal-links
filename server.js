@@ -139,6 +139,16 @@ app.post('/api/unlock/:code', (req, res) => {
 
 // --- Redirect / tombstones ---------------------------------------------------
 
+const CREDIT = `
+      <a class="credit" href="https://github.com/Mostakim52" target="_blank" rel="noopener" title="github.com/Mostakim52">
+        <img class="credit-avatar" src="https://avatars.githubusercontent.com/u/104221451?v=4" alt="Mostakim Hossain" width="34" height="34">
+        <span class="credit-text">
+          <span class="credit-label">MADE BY</span>
+          <span class="credit-name">Mostakim Hossain</span>
+        </span>
+        <span class="credit-glyph">↗</span>
+      </a>`;
+
 const pageHead = `
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -180,6 +190,7 @@ const tombstonePage = (code, row, cause) => {
         <p class="tomb-epitaph">${epitaph}</p>
         ${stats}
         <a class="btn ghost" href="/">RESURRECT SOMETHING ELSE</a>
+        <div class="tomb-credit">${CREDIT}</div>
       </div>
     </main>
   </body></html>`;
@@ -197,6 +208,7 @@ const gatePage = (code) => `<!doctype html><html lang="en"><head>${pageHead}</he
         <button class="btn primary" type="submit">UNSEAL</button>
       </form>
       <p class="gate-error" id="gate-error"></p>
+      <div class="tomb-credit">${CREDIT}</div>
     </div>
   </main>
   <script>
